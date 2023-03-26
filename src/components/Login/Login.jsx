@@ -1,60 +1,64 @@
-import React from 'react';
-import {reduxForm, Field} from 'redux-form';
-import {required, maxLengthCreator} from '../../utils/validators/validators'
-import {Input} from '../common/FormsControls/FormsControls'
-import {connect} from 'react-redux'
-import {login} from '../../redux/auth-reducer'
-import {Navigate} from "react-router-dom"
-import classes from '../common/FormsControls/FormsControls.module.css';
+import React from "react";
+import { reduxForm, Field } from "redux-form";
+import { required } from "../../utils/validators/validators";
+import { Input } from "../common/FormsControls/FormsControls";
+import { connect } from "react-redux";
+import { login } from "../../redux/auth-reducer";
+import { Navigate } from "react-router-dom";
+import classes from "../common/FormsControls/FormsControls.module.css";
 
-
-
-const LoginForm = (props)=> {
+const LoginForm = (props) => {
   return (
-      <form onSubmit={props.handleSubmit}>
-        <div>
-          <Field  placeholder={"Email"} 
-                  validate={[required]}
-                  name={"email"} 
-                  component={Input}/>
-        </div>
-        <div>
-          <Field  placeholder={"Password"}
-                  validate={[required]}
-                  name={"password"} 
-                  type={"password"}
-                  component={Input}/>
-        </div>
-        <div>
-          <Field component={Input} name={"rememberMe"}  type={"checkbox"}/>
-        </div>
-        {props.error && (<div className={classes.formSummaryError}>{props.error}</div>)}
-        <div>
-          <button>Login</button>
-        </div>
-      </form>
-  )
-}
+    <form onSubmit={props.handleSubmit}>
+      <div>
+        <Field
+          placeholder={"Email"}
+          validate={[required]}
+          name={"email"}
+          component={Input}
+        />
+      </div>
+      <div>
+        <Field
+          placeholder={"Password"}
+          validate={[required]}
+          name={"password"}
+          type={"password"}
+          component={Input}
+        />
+      </div>
+      <div>
+        <Field component={Input} name={"rememberMe"} type={"checkbox"} />
+      </div>
+      {props.error && (
+        <div className={classes.formSummaryError}>{props.error}</div>
+      )}
+      <div>
+        <button>Login</button>
+      </div>
+    </form>
+  );
+};
 const LoginReduxForm = reduxForm({
-    form: 'login'
-  })(LoginForm)
+  form: "login",
+})(LoginForm);
 
-const Login = (props)=> {
+const Login = (props) => {
   const onSubmit = (formData) => {
-    props.login(formData.email, formData.password,formData.rememberMe);
-  }
+    props.login(formData.email, formData.password, formData.rememberMe);
+  };
   if (props.isAuth) {
-    return <Navigate to={"/profile/*"}/>
+    return <Navigate to={"/profile/*"} />;
   }
   return (
     <div>
       <h1>Login</h1>
-      <LoginReduxForm onSubmit={onSubmit}/>
+      <LoginReduxForm onSubmit={onSubmit} />
     </div>
-  )
-}
+  );
+};
 const mapStateToProps = (state) => ({
-  isAuth: state.auth.isAuth
-})
+  isAuth: state.auth.isAuth,
+});
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, { login })(Login);
