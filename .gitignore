@@ -3,6 +3,6 @@ package-lock.json
 
 /build
 
-/.zip
+/*.zip
 
 npm-debug.log*
