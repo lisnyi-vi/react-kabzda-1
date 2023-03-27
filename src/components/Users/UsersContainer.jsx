@@ -69,5 +69,5 @@ export default compose(
     getUsers,
     toggleIsFatching,
   }),
-  withAuthRedirect
+  // withAuthRedirect
 )(UsersContainer);

@@ -16,6 +16,10 @@ class ProfileContainer extends React.Component {
     let userId = this.props.router.params.userId;
     if (!userId || userId === "*") {
       userId = this.props.authorizedUserId;
+      if (!userId || userId === "*") {
+        // this.props.history.push("/login")
+        console.log("Refactor history Error")
+      }
       // userId = 28113
     }
     this.props.getUserProfile(userId);
