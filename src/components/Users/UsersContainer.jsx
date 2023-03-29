@@ -4,7 +4,7 @@ import {
   unfollow,
   setCurrentPage,
   toggleFollowingProgress,
-  getUsers,
+  requestUsers,
   toggleIsFatching,
 } from "../../redux/users-reducer";
 import { connect } from "react-redux";
@@ -13,18 +13,19 @@ import Preloader from "../common/Preloader/Preloader";
 import { usersAPI } from "../../api/api";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFatching, getFollowingInProgres} from "../../redux/users-selectors";
 
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    this.props.requestUsers(this.props.currentPage, this.props.pageSize);
   }
 
   onPageChanged = (pageNumber) => {
-    this.props.getUsers(pageNumber, this.props.pageSize);
+    this.props.requestUsers(pageNumber, this.props.pageSize);
 
     this.props.setCurrentPage(pageNumber);
     this.props.toggleIsFatching(true);
-    usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
+    usersAPI.requestUsers(pageNumber, this.props.pageSize).then((data) => {
       this.props.toggleIsFatching(false);
       this.props.setUsers(data.items);
     });
@@ -49,14 +50,25 @@ class UsersContainer extends React.Component {
   }
 }
 
+// let mapStateToProps = (state) => {
+//   return {
+//     users: state.usersPage.users,
+//     pageSize: state.usersPage.pageSize,
+//     totalUsersCount: state.usersPage.totalUsersCount,
+//     currentPage: state.usersPage.currentPage,
+//     isFatching: state.usersPage.isFatching,
+//     followingInProgres: state.usersPage.followingInProgres,
+//   };
+// };
+
 let mapStateToProps = (state) => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFatching: state.usersPage.isFatching,
-    followingInProgres: state.usersPage.followingInProgres,
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFatching: getIsFatching(state),
+    followingInProgres: getFollowingInProgres(state),
   };
 };
 
@@ -66,7 +78,7 @@ export default compose(
     unfollow,
     setCurrentPage,
     toggleFollowingProgress,
-    getUsers,
+    requestUsers,
     toggleIsFatching,
   }),
   // withAuthRedirect
