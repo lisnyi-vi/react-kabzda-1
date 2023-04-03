@@ -13,7 +13,14 @@ import Preloader from "../common/Preloader/Preloader";
 import { usersAPI } from "../../api/api";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
-import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFatching, getFollowingInProgres} from "../../redux/users-selectors";
+import {
+  getUsers,
+  getPageSize,
+  getTotalUsersCount,
+  getCurrentPage,
+  getIsFatching,
+  getFollowingInProgres,
+} from "../../redux/users-selectors";
 
 class UsersContainer extends React.Component {
   componentDidMount() {
@@ -25,7 +32,7 @@ class UsersContainer extends React.Component {
 
     this.props.setCurrentPage(pageNumber);
     this.props.toggleIsFatching(true);
-    usersAPI.requestUsers(pageNumber, this.props.pageSize).then((data) => {
+    usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
       this.props.toggleIsFatching(false);
       this.props.setUsers(data.items);
     });
@@ -50,17 +57,6 @@ class UsersContainer extends React.Component {
   }
 }
 
-// let mapStateToProps = (state) => {
-//   return {
-//     users: state.usersPage.users,
-//     pageSize: state.usersPage.pageSize,
-//     totalUsersCount: state.usersPage.totalUsersCount,
-//     currentPage: state.usersPage.currentPage,
-//     isFatching: state.usersPage.isFatching,
-//     followingInProgres: state.usersPage.followingInProgres,
-//   };
-// };
-
 let mapStateToProps = (state) => {
   return {
     users: getUsers(state),
@@ -80,6 +76,6 @@ export default compose(
     toggleFollowingProgress,
     requestUsers,
     toggleIsFatching,
-  }),
+  })
   // withAuthRedirect
 )(UsersContainer);
