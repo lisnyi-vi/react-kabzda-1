@@ -24,11 +24,13 @@ import {
 
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+    let { currentPage, pageSize } = this.props;
+    this.props.getUsers(currentPage, pageSize);
   }
 
   onPageChanged = (pageNumber) => {
-    this.props.requestUsers(pageNumber, this.props.pageSize);
+    let { pageSize } = this.props;
+    this.props.getUsers(pageNumber, pageSize);
 
     this.props.setCurrentPage(pageNumber);
     this.props.toggleIsFatching(true);
@@ -74,7 +76,7 @@ export default compose(
     unfollow,
     setCurrentPage,
     toggleFollowingProgress,
-    requestUsers,
+    getUsers: requestUsers,
     toggleIsFatching,
   })
   // withAuthRedirect

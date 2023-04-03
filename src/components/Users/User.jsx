@@ -2,9 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import classes from "./Users.module.css";
 
-let User = ({ user, followingInProgres, unfollow, follow }) => {
+let User = ({ user, followingInProgres, key, unfollow, follow }) => {
   return (
-    <div>
+    <div key={key}>
       <span>
         <div>
           <NavLink to={"/profile/" + user.id}>
