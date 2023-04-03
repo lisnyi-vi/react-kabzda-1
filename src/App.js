@@ -9,7 +9,6 @@ import { initializeApp } from "./redux/app-reducer";
 import { connect } from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {
-  BrowserRouter,
   Routes,
   Route
 } from "react-router-dom"
@@ -29,7 +28,7 @@ class App extends React.Component {
       return <Preloader />
     }
     return (
-      <BrowserRouter>
+      
       <div className='app-wrapper'>
         <HeaderContainer />
         <Navbar />
@@ -42,7 +41,7 @@ class App extends React.Component {
          </Routes>
       </div>
       </div>
-    </BrowserRouter>
+  
     )
   }
 }
