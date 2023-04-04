@@ -1,4 +1,11 @@
 import React from 'react';
+import {
+  Provider
+} from 'react-redux';
+import {
+  BrowserRouter
+} from "react-router-dom"
+import store from './redux/redux-store';
 import HeaderContainer from './components/Header/HeaderContainer'
 import Navbar from './components/Navbar/Navbar'
 import UsersContainer from './components/Users/UsersContainer'
@@ -51,4 +58,17 @@ let mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { initializeApp })(App)
+let AppContainer = connect(mapStateToProps, { initializeApp })(App)
+let MainApp = (props)=> {
+  return (
+    <BrowserRouter>
+      <React.StrictMode>
+        <Provider store={store}>
+          <AppContainer />
+        </Provider>
+      </React.StrictMode>
+    </BrowserRouter>
+  )
+}
+
+export default MainApp;
