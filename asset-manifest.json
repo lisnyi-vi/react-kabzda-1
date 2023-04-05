@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/react-kabzda-1/static/css/main.49b7acfd.css",
+    "main.js": "/react-kabzda-1/static/js/main.015e6bb6.js",
+    "static/js/787.2b0bd88f.chunk.js": "/react-kabzda-1/static/js/787.2b0bd88f.chunk.js",
+    "static/media/Ellipsis-1s-200px.svg": "/react-kabzda-1/static/media/Ellipsis-1s-200px.fa4b2a69c4ef7731c40dfc2899539a98.svg",
+    "index.html": "/react-kabzda-1/index.html",
+    "main.49b7acfd.css.map": "/react-kabzda-1/static/css/main.49b7acfd.css.map",
+    "main.015e6bb6.js.map": "/react-kabzda-1/static/js/main.015e6bb6.js.map",
+    "787.2b0bd88f.chunk.js.map": "/react-kabzda-1/static/js/787.2b0bd88f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.49b7acfd.css",
+    "static/js/main.015e6bb6.js"
+  ]
+}
