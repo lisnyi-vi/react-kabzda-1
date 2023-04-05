@@ -3,7 +3,7 @@ import {
   Provider
 } from 'react-redux';
 import {
-  BrowserRouter
+  HashRouter
 } from "react-router-dom"
 import store from './redux/redux-store';
 import HeaderContainer from './components/Header/HeaderContainer'
@@ -61,13 +61,14 @@ let mapStateToProps = (state) => ({
 let AppContainer = connect(mapStateToProps, { initializeApp })(App)
 let MainApp = (props)=> {
   return (
-    <BrowserRouter>
+    // basename={process.env.PUBLIC_URL}
+    <HashRouter >
       <React.StrictMode>
         <Provider store={store}>
           <AppContainer />
         </Provider>
       </React.StrictMode>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
