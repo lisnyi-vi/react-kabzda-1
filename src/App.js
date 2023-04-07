@@ -9,8 +9,6 @@ import store from './redux/redux-store';
 import HeaderContainer from './components/Header/HeaderContainer'
 import Navbar from './components/Navbar/Navbar'
 import UsersContainer from './components/Users/UsersContainer'
-import ProfileContainer from './components/Profile/ProfileContainer'
-import DialogsContainer from './components/Dialogs/DialogsContainer'
 import Login from './components/Login/Login'
 import { initializeApp } from "./redux/app-reducer";
 import { connect } from "react-redux";
@@ -19,12 +17,14 @@ import {
   Routes,
   Route
 } from "react-router-dom"
-
-
-
-
-// import logo from './logo.svg';
 import './App.css';
+import {withSuspense} from "./hoc/withSuspense"
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+// import ProfileContainer from './components/Profile/ProfileContainer'
+
+// import DialogsContainer from './components/Dialogs/DialogsContainer'
+const DialogsContainer = React.lazy(()=> import("./components/Dialogs/DialogsContainer"));
+
 
 class App extends React.Component {
   componentDidMount() {
@@ -40,12 +40,23 @@ class App extends React.Component {
         <HeaderContainer />
         <Navbar />
         <div class="app-wrapper-content">
-         <Routes>
-          <Route path="/dialogs/*" element={<DialogsContainer  />} />
-          <Route path="/profile/:userId" element={<ProfileContainer  />} />
-          <Route path="/users" element={<UsersContainer />} />
-          <Route path="/login" element={<Login />} />
-         </Routes>
+        
+           <Routes>
+            <Route path="/dialogs/*" element={
+                <React.Suspense fallback={<div>Loading...</div>}>
+                  <DialogsContainer />
+                </React.Suspense>
+              }/>
+            
+            <Route path="/profile/:userId" element={
+                <React.Suspense fallback={<div>Loading...</div>}>
+                  <ProfileContainer />
+                </React.Suspense>
+              } />
+            <Route path="/users" element={<UsersContainer />} />
+            <Route path="/login" element={<Login />} />
+           </Routes>
+         
       </div>
       </div>
   
@@ -73,3 +84,5 @@ let MainApp = (props)=> {
 }
 
 export default MainApp;
+
+// <Route path="/profile/:userId" element={withSuspense(ProfileContainer)} /> 
