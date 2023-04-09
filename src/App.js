@@ -3,7 +3,10 @@ import {
   Provider
 } from 'react-redux';
 import {
-  HashRouter
+  HashRouter, 
+  useLocation,
+  useNavigate,
+  useParams,
 } from "react-router-dom"
 import store from './redux/redux-store';
 import HeaderContainer from './components/Header/HeaderContainer'
@@ -12,17 +15,16 @@ import UsersContainer from './components/Users/UsersContainer'
 import Login from './components/Login/Login'
 import { initializeApp } from "./redux/app-reducer";
 import { connect } from "react-redux";
+import { compose } from "redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom"
 import './App.css';
 import {withSuspense} from "./hoc/withSuspense"
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
-// import ProfileContainer from './components/Profile/ProfileContainer'
-
-// import DialogsContainer from './components/Dialogs/DialogsContainer'
 const DialogsContainer = React.lazy(()=> import("./components/Dialogs/DialogsContainer"));
 
 
@@ -42,6 +44,7 @@ class App extends React.Component {
         <div class="app-wrapper-content">
         
            <Routes>
+           <Route path="/" element={<Navigate to={"/profile/*"}/> } />
             <Route path="/dialogs/*" element={
                 <React.Suspense fallback={<div>Loading...</div>}>
                   <DialogsContainer />
@@ -55,6 +58,7 @@ class App extends React.Component {
               } />
             <Route path="/users" element={<UsersContainer />} />
             <Route path="/login" element={<Login />} />
+            <Route path="*" element={<div>404 NOT FOUND</div>} />
            </Routes>
          
       </div>
@@ -67,9 +71,23 @@ class App extends React.Component {
 let mapStateToProps = (state) => ({
   initialized: state.app.initialized
 });
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{ location, navigate, params }}
+      />
+    );
+  }
 
+  return ComponentWithRouterProp;
+}
 
-let AppContainer = connect(mapStateToProps, { initializeApp })(App)
+let AppContainer = compose(withRouter, connect(mapStateToProps, { initializeApp }))(App)
 let MainApp = (props)=> {
   return (
     // basename={process.env.PUBLIC_URL}
