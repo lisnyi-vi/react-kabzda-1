@@ -19,8 +19,7 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, saveFile, savePro
   }
   
   const onSubmit = (formData) => {
-    saveProfile(formData)
-    setEditMode(false)
+    saveProfile(formData).then(()=>setEditMode(false))
   };
   
   return (
@@ -73,7 +72,7 @@ const ProfileData = ({profile, isOwner, goToEditMode})=>{
 
 const Contact =({contactTitle, contactValue})=> {
   return (
-    <div className={classes.contacts}><b>{contactTitle}</b><b>{contactValue}</b></div>  
+    <div key={contactTitle} className={classes.contacts}><b>{contactTitle}: </b>{contactValue}</div>  
   )
 }
 export default ProfileInfo;

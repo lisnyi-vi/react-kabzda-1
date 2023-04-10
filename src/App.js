@@ -29,8 +29,15 @@ const DialogsContainer = React.lazy(()=> import("./components/Dialogs/DialogsCon
 
 
 class App extends React.Component {
+  catchAllUnhandlError = (reason, promise)=>{
+    alert("some error")
+  }
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener("unhandledrejection", this.catchAllUnhandlError)
+  }
+  componentWillUnmount () {
+    window.removeEventListener("unhandledrejection", this.catchAllUnhandlError)
   }
   render () {
     if(!this.props.initialized) {
